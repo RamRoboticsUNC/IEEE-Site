@@ -18,4 +18,9 @@ async def read_root():
         html_content = f.read()
     return HTMLResponse(content=html_content)
 
-handler = Mangum(app)
+# Create the Mangum handler
+mangum_handler = Mangum(app)
+
+# Vercel expects a handler function
+def handler(event, context):
+    return mangum_handler(event, context)
