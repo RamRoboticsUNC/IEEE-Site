@@ -3,6 +3,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 import os
 from pathlib import Path
+from mangum import Mangum
+
 
 # Create FastAPI app
 app = FastAPI(title="IEEE Site", description="IEEE Site with FastAPI backend")
@@ -18,7 +20,4 @@ async def read_root(request: Request):
     """Serve the main page"""
     return FileResponse(str(BASE_DIR / "static" / "index.html"))
 
-# Vercel handler
-def handler(request):
-    """Vercel serverless handler"""
-    return app
+handler = Mangum(app)
