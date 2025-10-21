@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from mangum import Mangum
+import asyncio
 
 # Create FastAPI app
 app = FastAPI(title="IEEE Site", description="IEEE Site with FastAPI backend")
@@ -74,9 +75,21 @@ HTML_CONTENT = """<!DOCTYPE html>
 </html>"""
 
 @app.get("/", response_class=HTMLResponse)
-async def read_root():
+def read_root():
     """Serve the main page"""
     return HTMLResponse(content=HTML_CONTENT)
 
 # Create the Mangum handler
-handler = Mangum(app)
+mangum_handler = Mangum(app)
+
+# Vercel expects a handler function with proper signature
+def handler(event, context):
+    try:
+        return mangum_handler(event, context)
+    except Exception as e:
+        print(f"Error in handler: {e}")
+        return {
+            'statusCode': 500,
+            'headers': {'Content-Type': 'text/html'},
+            'body': f'<h1>Error: {str(e)}</h1>'
+        }
