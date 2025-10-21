@@ -79,17 +79,10 @@ def read_root():
     """Serve the main page"""
     return HTMLResponse(content=HTML_CONTENT)
 
-# Create the Mangum handler
-mangum_handler = Mangum(app)
+# Create the Mangum handler for Vercel
+handler = Mangum(app)
 
-# Vercel expects a handler function with proper signature
-def handler(event, context):
-    try:
-        return mangum_handler(event, context)
-    except Exception as e:
-        print(f"Error in handler: {e}")
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'text/html'},
-            'body': f'<h1>Error: {str(e)}</h1>'
-        }
+# For local development with uvicorn
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
