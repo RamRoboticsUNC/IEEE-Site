@@ -147,22 +147,25 @@
 					// Disable submit.
 						$submit.disabled = true;
 
-					// Process form.
-					// Note: Doesn't actually do anything yet (other than report back with a "thank you"),
-					// but there's enough here to piece together a working AJAX submission call that does.
-						window.setTimeout(function() {
+			// Process form.
+			// Redirect to Google Form for email collection
+				window.setTimeout(function() {
 
-							// Reset form.
-								$form.reset();
+					// Reset form.
+						$form.reset();
 
-							// Enable submit.
-								$submit.disabled = false;
+					// Enable submit.
+						$submit.disabled = false;
 
-							// Show message.
-								$message._show('success', 'Thank you!');
-								//$message._show('failure', 'Something went wrong. Please try again.');
+					// Show message and redirect.
+						$message._show('success', 'Redirecting to signup form...');
+						
+						// Redirect to Google Form after showing message
+						setTimeout(function() {
+							window.open('https://forms.google.com/your-form-link-here', '_blank');
+						}, 1500);
 
-						}, 750);
+				}, 750);
 
 				});
 
