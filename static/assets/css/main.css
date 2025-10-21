@@ -87,7 +87,7 @@ html, body {
       min-height: 100%; } }
 
 body {
-  background-color: #000;
+  background-color: #1a1a1a;
   padding-top: 5em; }
   body.is-preload *, body.is-preload *:before, body.is-preload *:after {
     -moz-animation: none !important;
