@@ -1,7 +1,5 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from mangum import Mangum
-import asyncio
 
 # Create FastAPI app
 app = FastAPI(title="IEEE Site", description="IEEE Site with FastAPI backend")
@@ -78,9 +76,6 @@ HTML_CONTENT = """<!DOCTYPE html>
 def read_root():
     """Serve the main page"""
     return HTMLResponse(content=HTML_CONTENT)
-
-# Create the Mangum handler for Vercel
-handler = Mangum(app)
 
 # For local development with uvicorn
 if __name__ == "__main__":
