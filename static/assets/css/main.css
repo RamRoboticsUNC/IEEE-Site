@@ -821,6 +821,11 @@ button,
 }
 
 /* Header */
+#header {
+  margin: 3em 0 4em 0;
+  padding: 0 4em;
+}
+
 #header h1 {
   font-size: 3.25em;
   margin: 0 0 0.55em 0; }
@@ -885,6 +890,10 @@ section {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+}
+
+section#about {
+  margin-top: 8em;
 }
 
 section h2 {
