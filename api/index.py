@@ -1,75 +1,64 @@
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 # Create FastAPI app
 app = FastAPI(title="IEEE Site", description="IEEE Site with FastAPI backend")
 
-# HTML content embedded directly
-HTML_CONTENT = """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IEEE Site</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        nav {
-            background-color: #f4f4f4;
-            padding: 10px;
-            margin-bottom: 30px;
-            border-radius: 5px;
-        }
-        nav a {
-            margin-right: 20px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        nav a:hover {
-            color: #0066cc;
-        }
-        .content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Welcome to IEEE Site</h1>
-        <p>A modern IEEE website</p>
-    </header>
-    
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-    </nav>
-    
-    <div class="content">
-        <h2>Welcome!</h2>
-        <p>This is your IEEE website homepage. You can customize this content and add more pages as needed.</p>
-        
-        <h3>Getting Started</h3>
-        <ul>
-            <li>Edit this HTML file in the <code>static/</code> directory</li>
-            <li>Add more pages by creating additional HTML files</li>
-            <li>Customize the styling to match your IEEE chapter's branding</li>
-        </ul>
-    </div>
-</body>
+# Get the directory where this file is located
+BASE_DIR = Path(__file__).parent.parent
+
+# Mount static files
+app.mount("/assets", StaticFiles(directory=str(BASE_DIR / "static" / "assets")), name="assets")
+app.mount("/images", StaticFiles(directory=str(BASE_DIR / "static" / "images")), name="images")
+
+# HTML content using HTML5UP template
+HTML_CONTENT = """<!DOCTYPE HTML>
+<!--
+	IEEE Site - Based on Eventually by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>IEEE Site</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<h1>IEEE</h1>
+				<p>Welcome to our IEEE chapter website<br />
+				Join us for exciting events, workshops, and networking opportunities.</p>
+			</header>
+
+		<!-- Signup Form -->
+			<form id="signup-form" method="post" action="#">
+				<input type="email" name="email" id="email" placeholder="Email Address" />
+				<input type="submit" value="Stay Updated" />
+			</form>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<ul class="icons">
+					<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+					<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+					<li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+				</ul>
+				<ul class="copyright">
+					<li>&copy; IEEE Chapter.</li><li>Template: <a href="http://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/main.js"></script>
+
+	</body>
 </html>"""
 
 @app.get("/", response_class=HTMLResponse)
